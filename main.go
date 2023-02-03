@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/sinlov/drone-info-tools/drone_info"
+	"github.com/sinlov/drone-info-tools/template"
 	"log"
 	"os"
 	"time"
@@ -108,6 +109,7 @@ func action(c *cli.Context) error {
 		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusHide
 	} else {
 		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+		cardOss.InfoSendResult = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_send_result", feishu_plugin.EnvPluginFeishuOssInfoSendResult)
 		cardOss.InfoUser = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_user", feishu_plugin.EnvPluginFeishuOssInfoUser)
 		cardOss.InfoPath = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_path", feishu_plugin.EnvPluginFeishuOssInfoPath)
 		cardOss.ResourceUrl = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_resource_url", feishu_plugin.EnvPluginFeishuOssResourceUrl)
@@ -301,11 +303,16 @@ func pluginFeishu() []cli.Flag {
 			EnvVars: []string{feishu_plugin.EnvPluginFeishuMsgPoweredByImageAlt},
 		},
 
-		// oss card end
+		// oss card start
 		&cli.StringFlag{
 			Name:    "config.feishu_oss_host",
 			Usage:   "feishu OSS host for show oss info, if empty will not show oss info",
 			EnvVars: []string{feishu_plugin.EnvPluginFeishuOssHost},
+		},
+		&cli.StringFlag{
+			Name:    "config.feishu_oss_info_send_result",
+			Usage:   "feishu OSS user for show at card",
+			EnvVars: []string{feishu_plugin.EnvPluginFeishuOssInfoSendResult},
 		},
 		&cli.StringFlag{
 			Name:    "config.feishu_oss_info_user",
@@ -359,6 +366,7 @@ func pluginCommon() []cli.Flag {
 }
 
 func main() {
+	template.RegisterSettings(template.DefaultFunctions)
 	app := cli.NewApp()
 	app.Version = Version
 	app.Name = "Drone Plugin"

@@ -5,6 +5,7 @@ import (
 	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
 	"github.com/sinlov/drone-file-browser-plugin/file_browser_plugin"
 	"github.com/sinlov/drone-info-tools/drone_info"
+	"github.com/sinlov/drone-info-tools/template"
 	tools "github.com/sinlov/drone-info-tools/tools/str_tools"
 	"log"
 	"math/rand"
@@ -48,6 +49,7 @@ func (p *Plugin) Exec() error {
 		return fmt.Errorf("-> feishu_robot_oss_type not support %s, can set %v", p.Config.OssType, supportOssType)
 	}
 
+	var ossPluginErr error
 	switch p.Config.OssType {
 	default:
 		if p.Config.Debug {
@@ -60,25 +62,27 @@ func (p *Plugin) Exec() error {
 			Drone:   p.Drone,
 			Config:  p.Config.OssFileBrowserCfg,
 		}
-		fileBrowserPluginErr := fileBrowserPlugin.Exec()
+		ossPluginErr = fileBrowserPlugin.Exec()
 
-		if fileBrowserPluginErr != nil {
-			log.Fatalf("fileBrowserPluginErr: %v", fileBrowserPluginErr)
-			return err
+		if ossPluginErr == nil {
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssHost, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareHost))
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoUser, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareUser))
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoPath, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareRemotePath))
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssResourceUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareDownloadUrl))
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPageUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePage))
+			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPagePasswd, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePasswd))
 		}
 
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssHost, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareHost))
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoUser, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareUser))
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoPath, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareRemotePath))
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssResourceUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareDownloadUrl))
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPageUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePage))
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPagePasswd, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePasswd))
-
-		fileBrowserPluginErr = fileBrowserPlugin.CleanResultEnv()
-		if fileBrowserPluginErr != nil {
-			log.Fatalf("fileBrowserPluginErr: %v", fileBrowserPluginErr)
-			return fileBrowserPluginErr
+		fileBrowserCleanResultEnvErr := fileBrowserPlugin.CleanResultEnv()
+		if fileBrowserCleanResultEnvErr != nil {
+			log.Fatalf("fileBrowserPlugin.CleanResultEnv() err: %v", fileBrowserCleanResultEnvErr)
 		}
+	}
+
+	if ossPluginErr != nil {
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusHide)
+	} else {
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusShow)
 	}
 
 	// cover by feishu env oss
@@ -114,6 +118,10 @@ func (p *Plugin) Exec() error {
 	err = feishuPlugin.Exec()
 	if err != nil {
 		return err
+	}
+	if ossPluginErr != nil {
+		log.Fatalf("ossPluginErr: %v", ossPluginErr)
+		return ossPluginErr
 	}
 
 	log.Printf("=> plugin %s version %s", p.Name, p.Version)
