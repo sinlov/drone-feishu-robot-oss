@@ -65,12 +65,12 @@ func (p *Plugin) Exec() error {
 		ossPluginErr = fileBrowserPlugin.Exec()
 
 		if ossPluginErr == nil {
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssHost, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareHost))
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoUser, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareUser))
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoPath, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareRemotePath))
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssResourceUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareDownloadUrl))
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPageUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePage))
-			setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPagePasswd, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePasswd))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssHost, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareHost))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssInfoUser, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareUser))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssInfoPath, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareRemotePath))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssResourceUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareDownloadUrl))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssPageUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePage))
+			setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssPagePasswd, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePasswd))
 		}
 
 		fileBrowserCleanResultEnvErr := fileBrowserPlugin.CleanResultEnv()
@@ -80,9 +80,9 @@ func (p *Plugin) Exec() error {
 	}
 
 	if ossPluginErr != nil {
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusHide)
+		setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusHide)
 	} else {
-		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusShow)
+		setEnvFromStr(*p, feishu_plugin.EnvPluginFeishuOssInfoSendResult, template.RenderStatusShow)
 	}
 
 	// cover by feishu env oss
@@ -93,6 +93,7 @@ func (p *Plugin) Exec() error {
 		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusHide
 	} else {
 		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+		cardOss.InfoSendResult = lookupStrCoverByEnv(cardOss.InfoSendResult, feishu_plugin.EnvPluginFeishuOssInfoSendResult)
 		cardOss.InfoUser = lookupStrCoverByEnv(cardOss.InfoUser, feishu_plugin.EnvPluginFeishuOssInfoUser)
 		cardOss.InfoPath = lookupStrCoverByEnv(cardOss.InfoPath, feishu_plugin.EnvPluginFeishuOssInfoPath)
 		cardOss.ResourceUrl = lookupStrCoverByEnv(cardOss.ResourceUrl, feishu_plugin.EnvPluginFeishuOssResourceUrl)
@@ -155,7 +156,10 @@ func randomStrBySed(cnt uint, sed string) string {
 	return string(result)
 }
 
-func setEnvFromStr(key string, val string) {
+func setEnvFromStr(p Plugin, key string, val string) {
+	if p.Config.Debug {
+		log.Printf("debug: setEnvFromStr key [ %s ] = %s", key, val)
+	}
 	err := os.Setenv(key, val)
 	if err != nil {
 		log.Fatalf("set env key [%v] string err: %v", key, err)
