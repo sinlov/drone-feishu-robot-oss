@@ -1,4 +1,4 @@
-package plugin_test
+package feishu_robot_oss_plugin_test
 
 import (
 	"bytes"
@@ -20,6 +20,8 @@ const (
 	defTimeoutFileSecond = 30
 	mockVersion          = "v0.0.0"
 	mockName             = "drone-feishu-robot-oss"
+
+	mockOssTypeOther = "other-type"
 )
 
 var (
@@ -32,7 +34,9 @@ var (
 
 func envCheck(t *testing.T) bool {
 	mustSetEnvList := []string{
-		"PLUGIN_WEBHOOK",
+		"PLUGIN_FILE_BROWSER_HOST",
+		"PLUGIN_FILE_BROWSER_USERNAME",
+		"PLUGIN_FILE_BROWSER_USER_PASSWORD",
 	}
 	for _, item := range mustSetEnvList {
 		if os.Getenv(item) == "" {

@@ -1,10 +1,11 @@
 package feishu_robot_oss_plugin
 
 import (
-	"errors"
 	"fmt"
-	"github.com/sinlov/drone-feishu-robot-oss/tools"
+	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
+	"github.com/sinlov/drone-file-browser-plugin/file_browser_plugin"
 	"github.com/sinlov/drone-info-tools/drone_info"
+	tools "github.com/sinlov/drone-info-tools/tools/str_tools"
 	"log"
 	"math/rand"
 	"os"
@@ -43,27 +44,77 @@ func (p *Plugin) Exec() error {
 
 	var err error
 
-	if p.Config.Webhook == "" {
-		msg := "missing webhook, please set webhook"
-		return errors.New(msg)
+	if !(tools.StrInArr(p.Config.OssType, supportOssType)) {
+		return fmt.Errorf("-> feishu_robot_oss_type not support %s, can set %v", p.Config.OssType, supportOssType)
 	}
 
-	if p.Config.MsgType == "" {
-		msg := "missing msg type setting, please set message type"
-		return errors.New(msg)
+	switch p.Config.OssType {
+	default:
+		if p.Config.Debug {
+			log.Printf("debug: now ossType is empty or not support %s\n", p.Config.OssType)
+		}
+	case FeishuRobotOssTypeFileBrowser:
+		fileBrowserPlugin := file_browser_plugin.FileBrowserPlugin{
+			Name:    p.Name,
+			Version: p.Version,
+			Drone:   p.Drone,
+			Config:  p.Config.OssFileBrowserCfg,
+		}
+		fileBrowserPluginErr := fileBrowserPlugin.Exec()
+
+		if fileBrowserPluginErr != nil {
+			log.Fatalf("fileBrowserPluginErr: %v", fileBrowserPluginErr)
+			return err
+		}
+
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssHost, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareHost))
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoUser, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareUser))
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssInfoPath, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareRemotePath))
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssResourceUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultShareDownloadUrl))
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPageUrl, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePage))
+		setEnvFromStr(feishu_plugin.EnvPluginFeishuOssPagePasswd, lookupStrByEnv(file_browser_plugin.EnvPluginFileBrowserResultSharePasswd))
+
+		fileBrowserPluginErr = fileBrowserPlugin.CleanResultEnv()
+		if fileBrowserPluginErr != nil {
+			log.Fatalf("fileBrowserPluginErr: %v", fileBrowserPluginErr)
+			return fileBrowserPluginErr
+		}
 	}
 
-	if !(tools.StrInArr(p.Config.MsgType, supportMsgType)) {
-		return fmt.Errorf("msg type only support %v", supportMsgType)
+	// cover by feishu env oss
+	feishuCfg := p.Config.FeishuCfg
+	ossHost := lookupStrCoverByEnv("", feishu_plugin.EnvPluginFeishuOssHost)
+	cardOss := feishu_plugin.CardOss{}
+	if ossHost == "" {
+		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusHide
+	} else {
+		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+		cardOss.InfoUser = lookupStrCoverByEnv(cardOss.InfoUser, feishu_plugin.EnvPluginFeishuOssInfoUser)
+		cardOss.InfoPath = lookupStrCoverByEnv(cardOss.InfoPath, feishu_plugin.EnvPluginFeishuOssInfoPath)
+		cardOss.ResourceUrl = lookupStrCoverByEnv(cardOss.ResourceUrl, feishu_plugin.EnvPluginFeishuOssResourceUrl)
+		cardOss.PageUrl = lookupStrCoverByEnv(cardOss.PageUrl, feishu_plugin.EnvPluginFeishuOssPageUrl)
+		ossPagePasswd := lookupStrCoverByEnv("", feishu_plugin.EnvPluginFeishuOssPagePasswd)
+		if ossPagePasswd == "" {
+			cardOss.RenderResourceUrl = feishu_plugin.RenderStatusShow
+		} else {
+			cardOss.RenderResourceUrl = feishu_plugin.RenderStatusHide
+			cardOss.PagePasswd = ossPagePasswd
+		}
+	}
+	feishuCfg.CardOss = cardOss
+	p.Config.FeishuCfg = feishuCfg
+
+	feishuPlugin := feishu_plugin.FeishuPlugin{
+		Name:    p.Name,
+		Version: p.Version,
+		Drone:   p.Drone,
+		Config:  p.Config.FeishuCfg,
 	}
 
-	// set default TimeoutSecond
-	if p.Config.TimeoutSecond == 0 {
-		p.Config.TimeoutSecond = 10
+	err = feishuPlugin.Exec()
+	if err != nil {
+		return err
 	}
-
-	log.Printf("dev use Webhook: %v\n", p.Config.Webhook)
-	log.Printf("dev use MsgType: %v\n", p.Config.MsgType)
 
 	log.Printf("=> plugin %s version %s", p.Name, p.Version)
 
@@ -101,4 +152,20 @@ func setEnvFromStr(key string, val string) {
 	if err != nil {
 		log.Fatalf("set env key [%v] string err: %v", key, err)
 	}
+}
+
+func lookupStrByEnv(envKey string) string {
+	envVal, lookupEnv := os.LookupEnv(envKey)
+	if lookupEnv {
+		return envVal
+	}
+	return ""
+}
+
+func lookupStrCoverByEnv(targetStr, envKey string) string {
+	envVal, lookupEnv := os.LookupEnv(envKey)
+	if lookupEnv {
+		targetStr = envVal
+	}
+	return targetStr
 }

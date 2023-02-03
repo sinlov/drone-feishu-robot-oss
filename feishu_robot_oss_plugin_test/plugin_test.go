@@ -1,4 +1,4 @@
-package plugin_test
+package feishu_robot_oss_plugin_test
 
 import (
 	"github.com/sinlov/drone-feishu-robot-oss/feishu_robot_oss_plugin"
@@ -24,31 +24,19 @@ func TestPlugin(t *testing.T) {
 	// use env:ENV_DEBUG
 	p.Config.Debug = envDebug
 
+	p.Config.OssType = mockOssTypeOther
 	err := p.Exec()
 	if nil == err {
-		t.Error("webhook empty error should be catch!")
+		t.Fatal("args [ feishu_robot_oss_type ] error should be catch!")
 	}
 
-	p.Config.Webhook = envPluginWebhook
+	// close oss
+	p.Config.OssType = ""
 
 	err = p.Exec()
-	if nil == err {
-		t.Error("msg type empty error should be catch!")
+	if nil != err {
+		t.Fatal(err)
 	}
-
-	p.Config.MsgType = "mock" // not support type
-	err = p.Exec()
-	if nil == err {
-		t.Error("msg type not support error should be catch!")
-	}
-
-	envMsgType := os.Getenv("PLUGIN_MSG_TYPE")
-
-	if envMsgType == "" {
-		t.Error("please set env:PLUGIN_MSG_TYPE then test")
-	}
-
-	p.Config.MsgType = envMsgType
 
 	p.Drone = *drone_info.MockDroneInfo("success")
 	// verify Plugin

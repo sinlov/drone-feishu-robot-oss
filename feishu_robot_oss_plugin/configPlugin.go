@@ -1,19 +1,21 @@
 package feishu_robot_oss_plugin
 
+import (
+	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
+	"github.com/sinlov/drone-file-browser-plugin/file_browser_plugin"
+)
+
 const (
 	EnvPluginResultShareHost = "PLUGIN_RESULT_SHARE_HOST"
 
-	msgTypeText        = "text"
-	msgTypePost        = "post"
-	msgTypeInteractive = "interactive"
+	FeishuRobotOssTypeFileBrowser = "filebrowser"
 )
 
 var (
 	// supportMsgType
-	supportMsgType = []string{
-		msgTypeText,
-		msgTypePost,
-		msgTypeInteractive,
+	supportOssType = []string{
+		"",
+		FeishuRobotOssTypeFileBrowser,
 	}
 
 	cleanResultEnvList = []string{
@@ -22,14 +24,18 @@ var (
 )
 
 type (
+
 	// Config plugin private config
 	Config struct {
-		Webhook string
-		Secret  string
-		MsgType string
-
-		Debug bool
-
+		Debug         bool
 		TimeoutSecond uint
+
+		FeishuCfg feishu_plugin.Config
+
+		// OssType
+		// just use var:supportOssType
+		OssType string
+
+		OssFileBrowserCfg file_browser_plugin.Config
 	}
 )

@@ -1,7 +1,7 @@
 .PHONY: test check clean build dist all
 #TOP_DIR := $(shell pwd)
 # each tag change this
-ENV_DIST_VERSION := v0.1.2
+ENV_DIST_VERSION := v1.0.0
 
 ROOT_NAME ?= drone-feishu-robot-oss
 RUN_ARGS = -h
@@ -39,8 +39,16 @@ else
         ENV_DIST_MARK=-${DRONE_COMMIT}
     endif
 endif
-ifneq ($(strip $(GITHUB_SHA)),)
-    ENV_DIST_MARK=-${GITHUB_SHA}# https://docs.github.com/cn/enterprise-server@2.22/actions/learn-github-actions/environment-variables
+
+# https://docs.github.com/cn/enterprise-server/actions/learn-github-actions/environment-variables
+# https://github.com/orgs/community/discussions/26686
+# env:ENV_GITHUB_TAG_FROM_REF from self define, at github action ${GITHUB_REF##*/}
+ifneq ($(strip $(ENV_GITHUB_TAG_FROM_REF)),)
+    ENV_DIST_MARK=-tag.${ENV_GITHUB_TAG_FROM_REF}
+else
+    ifneq ($(strip $(GITHUB_SHA)),)
+        ENV_DIST_MARK=-${GITHUB_SHA}
+    endif
 endif
 
 # ifeq ($(FILE), $(wildcard $(FILE)))
