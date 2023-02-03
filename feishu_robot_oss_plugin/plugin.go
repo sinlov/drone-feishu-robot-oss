@@ -88,7 +88,9 @@ func (p *Plugin) Exec() error {
 	// cover by feishu env oss
 	feishuCfg := p.Config.FeishuCfg
 	ossHost := lookupStrCoverByEnv("", feishu_plugin.EnvPluginFeishuOssHost)
-	cardOss := feishu_plugin.CardOss{}
+	cardOss := feishu_plugin.CardOss{
+		Host: ossHost,
+	}
 	if ossHost == "" {
 		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusHide
 	} else {
