@@ -14,18 +14,26 @@
 
 `1.x`
 
+- notify-build-failure
+
 ```yaml
 steps:
-  - name: drone-feishu-robot-oss
+  - name: notify-failure-feishu-robot
+    # image: sinlov/drone-feishu-robot-oss:latest
+    # pull: if-not-exists
     image: sinlov/drone-feishu-robot-oss:latest
-    pull: if-not-exists
     settings:
-      debug: false
-      webhook:
+      # debug: true # plugin debug switch
+      # ntp_target: "pool.ntp.org" # if not set will not sync
+      # timeout_second: 10 # default 10
+      feishu_webhook:
         # https://docs.drone.io/pipeline/environment/syntax/#from-secrets
-        from_secret: webhook_token
-      msg_type: your-message-type
-      timeout_second: 10 # default 10
+        from_secret: feishu_group_bot_token
+      feishu_secret:
+        from_secret: feishu_group_secret_bot
+      feishu_msg_title: "Drone CI Notification" # default [Drone CI Notification]
+      # let notification card change more info see https://open.feishu.cn/document/ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN
+      feishu_enable_forward: true
     when:
       event: # https://docs.drone.io/pipeline/exec/syntax/conditions/#by-event
         - promote
@@ -33,7 +41,7 @@ steps:
         - push
         - pull_request
         - tag
-      status: # only support failure/success,  both open will send anything
+      status: # only support failure/success, both open will send anything
         - failure
         # - success
 ```
