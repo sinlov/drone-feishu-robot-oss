@@ -46,36 +46,45 @@ func TestPlugin(t *testing.T) {
 	p.Config.FeishuCfg.Webhook = envFeishuWebHook
 	p.Config.FeishuCfg.Secret = envFeishuSecret
 	p.Config.FeishuCfg.FeishuEnableForward = false
-
-	pagePasswd := mockOssPagePasswd
-	p.Drone = *drone_info.MockDroneInfo("success")
-	checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, false)
 	p.Config.FeishuCfg.CardOss.InfoSendResult = ""
-	// verify Plugin
-	err = p.Exec()
-	if err != nil {
-		t.Fatalf("send failure error at %v", err)
-	}
+	pagePasswd := mockOssPagePasswd
 
-	p.Drone = *drone_info.MockDroneInfo("success")
-	p.Drone.Commit.Message = "build success but oss send failure and render RenderOssCard show"
-	p.Config.FeishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
-	checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, false)
-	// verify Plugin
-	err = p.Exec()
-	if err != nil {
-		t.Fatalf("send failure error at %v", err)
-	}
-
-	p.Drone = *drone_info.MockDroneInfo("failure")
-	p.Drone.Commit.Message = "build failure and hide Oss settings and render OssStatus"
-	p.Config.FeishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+	p.Drone = *drone_info.MockDroneInfo(drone_info.DroneBuildStatusSuccess)
 	checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, true)
 	// verify Plugin
 	err = p.Exec()
 	if err != nil {
 		t.Fatalf("send failure error at %v", err)
 	}
+	p.Drone = *drone_info.MockDroneInfo(drone_info.DroneBuildStatusFailure)
+	checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, true)
+	// verify Plugin
+	err = p.Exec()
+	if err != nil {
+		t.Fatalf("send failure error at %v", err)
+	}
+
+	// open oss FeishuRobotOssTypeFileBrowser if open this must send file
+	//p.Config.OssType = feishu_robot_oss_plugin.FeishuRobotOssTypeFileBrowser
+	//p.Drone = *drone_info.MockDroneInfo("success")
+	//p.Config.FeishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+	//p.Drone.Commit.Message = "build success but oss send failure and render RenderOssCard show"
+	//p.Config.FeishuCfg.FeishuEnableForward = true
+	//checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, false)
+	//// verify Plugin
+	//err = p.Exec()
+	//if err != nil {
+	//	t.Fatalf("send failure error at %v", err)
+	//}
+	//p.Drone = *drone_info.MockDroneInfo("failure")
+	//p.Drone.Commit.Message = "build failure and hide Oss settings and render OssStatus"
+	//p.Config.FeishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
+	//checkCardOssRenderByPlugin(&p.Config.FeishuCfg, pagePasswd, true)
+	//// verify Plugin
+	//err = p.Exec()
+	//if err != nil {
+	//	t.Fatalf("send failure error at %v", err)
+	//}
 
 	err = p.CleanResultEnv()
 	if err != nil {
