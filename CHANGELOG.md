@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.0.0...v1.1.0) (2023-02-04)
+
+
+### Features
+
+* let file upload must pass sha256 check ([9256b6c](https://github.com/sinlov/drone-feishu-robot-oss/commit/9256b6ce5283d6ff9b14502de06e27d2b9c869f8))
+
 ## 1.0.0 (2023-02-04)
 
 
