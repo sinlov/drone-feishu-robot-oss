@@ -69,6 +69,7 @@ func main() {
 
 	app.Action = action
 	flags := drone_urfave_cli_v2.UrfaveCliAppendCliFlag(drone_urfave_cli_v2.DroneInfoUrfaveCliFlag(), feishu_robot_oss_plugin.CommonFlag())
+	flags = drone_urfave_cli_v2.UrfaveCliAppendCliFlag(flags, feishu_robot_oss_plugin.Flag())
 	flags = drone_urfave_cli_v2.UrfaveCliAppendCliFlag(flags, feishu_plugin.Flag())
 	flags = drone_urfave_cli_v2.UrfaveCliAppendCliFlag(flags, feishu_plugin.HideFlag())
 	flags = drone_urfave_cli_v2.UrfaveCliAppendCliFlag(flags, file_browser_plugin.Flag())

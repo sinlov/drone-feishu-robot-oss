@@ -112,6 +112,18 @@ func BindFlag(c *cli.Context, isDebug bool, cliVersion, cliName string, drone dr
 	return p
 }
 
+// Flag
+// set plugin flag at here
+func Flag() []cli.Flag {
+	return []cli.Flag{
+		&cli.StringFlag{
+			Name:    "config.feishu_robot_oss_type,feishu_robot_oss_type",
+			Usage:   "choose oss type, if type is \"\" or not set, will use feishu robot send no oss message",
+			EnvVars: []string{EnvPluginFeishuRobotOssType},
+		},
+	}
+}
+
 // CommonFlag
 // set plugin common flag at here
 func CommonFlag() []cli.Flag {
@@ -125,11 +137,6 @@ func CommonFlag() []cli.Flag {
 			Name:    "config.timeout_second,timeout_second",
 			Usage:   "do request timeout setting second",
 			EnvVars: []string{"PLUGIN_TIMEOUT_SECOND"},
-		},
-		&cli.StringFlag{
-			Name:    "config.feishu_robot_oss_type,feishu_robot_oss_type",
-			Usage:   "choose oss type, if type is \"\" or not set, will use feishu robot send no oss message",
-			EnvVars: []string{"PLUGIN_FEISHU_ROBOT_OSS_TYPE"},
 		},
 	}
 }

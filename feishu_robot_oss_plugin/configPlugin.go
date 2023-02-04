@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	EnvPluginResultShareHost = "PLUGIN_RESULT_SHARE_HOST"
+	EnvPluginResultShareHost    = "PLUGIN_RESULT_SHARE_HOST"
+	EnvPluginFeishuRobotOssType = "PLUGIN_FEISHU_ROBOT_OSS_TYPE"
 
 	FeishuRobotOssTypeFileBrowser = "filebrowser"
 )
@@ -20,6 +21,7 @@ var (
 
 	cleanResultEnvList = []string{
 		EnvPluginResultShareHost,
+		EnvPluginFeishuRobotOssType,
 	}
 )
 

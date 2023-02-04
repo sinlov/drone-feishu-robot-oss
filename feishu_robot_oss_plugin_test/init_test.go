@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
 	"github.com/sinlov/drone-info-tools/template"
 	"io/fs"
 	"math/rand"
@@ -22,22 +23,26 @@ const (
 	mockVersion          = "v0.0.0"
 	mockName             = "drone-feishu-robot-oss"
 
-	mockOssTypeOther = "other-type"
+	mockOssTypeOther   = "other-type"
+	mockOssHost        = "https://docs.aws.amazon.com/s3/index.html"
+	mockOssUser        = "ossAdmin"
+	mockOssPath        = "dist/demo/pass.tar.gz"
+	mockOssResourceUrl = "https://docs.aws.amazon.com/s/dist/demo/pass.tar.gz"
+	mockOssPageUrl     = "https://docs.aws.amazon.com/p/dist/demo/pass.tar.gz"
+	mockOssPagePasswd  = "abc-zxy"
 )
 
 var (
-	envDebug    = false
-	envUserName = ""
-	envPassword = ""
+	envDebug = false
 
-	envPluginWebhook = ""
+	envFeishuWebHook = ""
+	envFeishuSecret  = ""
 )
 
 func envCheck(t *testing.T) bool {
 	mustSetEnvList := []string{
-		"PLUGIN_FILE_BROWSER_HOST",
-		"PLUGIN_FILE_BROWSER_USERNAME",
-		"PLUGIN_FILE_BROWSER_USER_PASSWORD",
+		feishu_plugin.EnvPluginFeishuWebhook,
+		feishu_plugin.EnvPluginFeishuSecret,
 	}
 	for _, item := range mustSetEnvList {
 		if os.Getenv(item) == "" {
@@ -53,10 +58,10 @@ func init() {
 	template.RegisterSettings(template.DefaultFunctions)
 	envDebug = os.Getenv("ENV_DEBUG") == "true"
 
-	envUserName = os.Getenv("ENV_PLUGIN_USERNAME")
-	envPassword = os.Getenv("ENV_PLUGIN_PASSWORD")
-
-	envPluginWebhook = os.Getenv("PLUGIN_WEBHOOK")
+	envFeishuWebHook = os.Getenv(feishu_plugin.EnvPluginFeishuWebhook)
+	if os.Getenv(feishu_plugin.EnvPluginFeishuSecret) != "" {
+		envFeishuSecret = os.Getenv(feishu_plugin.EnvPluginFeishuSecret)
+	}
 }
 
 // test case file tools start
