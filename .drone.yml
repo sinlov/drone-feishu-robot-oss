@@ -87,6 +87,8 @@ steps:
     environment:
       GOPATH: /go
     commands:
+      - export ENV_CI_DIST_VERSION=${DRONE_TAG}
+      - export ENV_CI_DIST_MARK=${DRONE_COMMIT_SHA:0:8}
       - make cleanAllDist distReleaseTar
       - cp ./dist/**/**.gz /go_dist_release/
     when:
