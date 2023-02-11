@@ -1,7 +1,7 @@
 .PHONY: test check clean build dist all
 #TOP_DIR := $(shell pwd)
 # can change by env:ENV_CI_DIST_VERSION use and change by env:ENV_CI_DIST_MARK by CI
-ENV_DIST_VERSION := v1.3.0
+ENV_DIST_VERSION := v1.3.1
 ENV_DIST_MARK=
 
 ROOT_NAME ?= drone-feishu-robot-oss
