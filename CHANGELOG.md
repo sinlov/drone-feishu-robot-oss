@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * update github.com/sinlov/drone-feishu-group-robot v1.6.0 ([21680e1](https://github.com/sinlov/drone-feishu-robot-oss/commit/21680e108c08bb9e8a2688249fa73b68074bc1d6))
 
+## [1.3.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.2.0...v1.3.0) (2023-02-11)
+
+
+### Features
+
+* update github.com/sinlov/drone-feishu-group-robot v1.6.0 ([21680e1](https://github.com/sinlov/drone-feishu-robot-oss/commit/21680e108c08bb9e8a2688249fa73b68074bc1d6))
+
 ## [1.2.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.1.0...v1.2.0) (2023-02-04)
 
 
