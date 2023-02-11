@@ -5,6 +5,7 @@
 [![docker version semver](https://img.shields.io/docker/v/sinlov/drone-feishu-robot-oss?sort=semver)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
 [![docker image size](https://img.shields.io/docker/image-size/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss)
 [![docker pulls](https://img.shields.io/docker/pulls/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
+[![github release](https://img.shields.io/github/v/release/sinlov/drone-feishu-robot-oss?style=social)](https://github.com/sinlov/drone-feishu-robot-oss/releases)
 
 ## for what
 
