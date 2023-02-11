@@ -31,7 +31,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sinlov/drone-feishu-group-robot v1.6.0
-	github.com/sinlov/drone-file-browser-plugin v1.7.0
+	github.com/sinlov/drone-file-browser-plugin v1.8.0
 	github.com/sinlov/drone-info-tools v1.8.0
 	github.com/urfave/cli/v2 v2.23.7
 	gopkg.in/yaml.v3 v3.0.1 // indirect
