@@ -8,9 +8,7 @@ import (
 	"github.com/sinlov/drone-info-tools/template"
 	tools "github.com/sinlov/drone-info-tools/tools/str_tools"
 	"log"
-	"math/rand"
 	"os"
-	"time"
 )
 
 type (
@@ -130,32 +128,6 @@ func (p *Plugin) Exec() error {
 	log.Printf("=> plugin %s version %s", p.Name, p.Version)
 
 	return err
-}
-
-// randomStr
-// new random string by cnt
-func randomStr(cnt uint) string {
-	var letters = []byte("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
-	result := make([]byte, cnt)
-	keyL := len(letters)
-	rand.Seed(time.Now().Unix())
-	for i := range result {
-		result[i] = letters[rand.Intn(keyL)]
-	}
-	return string(result)
-}
-
-// randomStr
-// new random string by cnt
-func randomStrBySed(cnt uint, sed string) string {
-	var letters = []byte(sed)
-	result := make([]byte, cnt)
-	keyL := len(letters)
-	rand.Seed(time.Now().Unix())
-	for i := range result {
-		result[i] = letters[rand.Intn(keyL)]
-	}
-	return string(result)
 }
 
 func setEnvFromStr(p Plugin, key string, val string) {

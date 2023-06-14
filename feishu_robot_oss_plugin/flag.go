@@ -24,80 +24,13 @@ func BindFlag(c *cli.Context, isDebug bool, cliVersion, cliName string, drone dr
 		}
 	case FeishuRobotOssTypeFileBrowser:
 		// append filebrowser oss config
-		fileBrowserConfig := file_browser_plugin.Config{
-
-			Debug:         c.Bool("config.debug"),
-			TimeoutSecond: c.Uint("config.timeout_second"),
-
-			FileBrowserBaseConfig: file_browser_plugin.FileBrowserBaseConfig{
-				FileBrowserHost:              c.String("config.file_browser_host"),
-				FileBrowserUsername:          c.String("config.file_browser_username"),
-				FileBrowserUserPassword:      c.String("config.file_browser_user_password"),
-				FileBrowserTimeoutPushSecond: c.Uint("config.file_browser_timeout_push_second"),
-				FileBrowserWorkSpace:         c.String("config.file_browser_work_space"),
-			},
-
-			FileBrowserWorkMode: c.String("config.file_browser_work_mode"),
-
-			FileBrowserSendModeConfig: file_browser_plugin.FileBrowserSendModeConfig{
-				FileBrowserDistType:           c.String("config.file_browser_dist_type"),
-				FileBrowserDistGraph:          c.String("config.file_browser_dist_graph"),
-				FileBrowserRemoteRootPath:     c.String("config.file_browser_remote_root_path"),
-				FileBrowserTargetDistRootPath: c.String("config.file_browser_target_dist_root_path"),
-				FileBrowserTargetFileGlob:     c.StringSlice("config.file_browser_target_file_globs"),
-				FileBrowserTargetFileRegular:  c.String("config.file_browser_target_file_regular"),
-
-				FileBrowserShareLinkEnable:             c.Bool("config.file_browser_share_link_enable"),
-				FileBrowserShareLinkUnit:               c.String("config.file_browser_share_link_unit"),
-				FileBrowserShareLinkExpires:            c.Uint("config.file_browser_share_link_expires"),
-				FileBrowserShareLinkAutoPasswordEnable: c.Bool("config.file_browser_share_link_auto_password_enable"),
-				FileBrowserShareLinkPassword:           c.String("config.file_browser_share_link_password"),
-			},
-
-			FileBrowserDownloadModeConfig: file_browser_plugin.FileBrowserDownloadModeConfig{
-				FileBrowserDownloadEnable:    c.Bool("config.file_browser_download_enable"),
-				FileBrowserDownloadPath:      c.String("config.file_browser_download_remote_path"),
-				FileBrowserDownloadLocalPath: c.String("config.file_browser_download_local_path"),
-			},
-		}
-		config.OssFileBrowserCfg = fileBrowserConfig
+		fileBrowserPlugin := file_browser_plugin.BindFlag(c, cliVersion, cliName, drone)
+		config.OssFileBrowserCfg = fileBrowserPlugin.Config
 	}
 
-	feishuCfg := feishu_plugin.Config{
-		Debug:               c.Bool("config.debug"),
-		TimeoutSecond:       c.Int("config.timeout_second"),
-		NtpTarget:           c.String("config.ntp_target"),
-		Webhook:             c.String("config.webhook"),
-		Secret:              c.String("config.secret"),
-		FeishuEnableForward: c.Bool("config.feishu_enable_forward"),
-		MsgType:             c.String("config.msg_type"),
-		Title:               c.String("config.msg_title"),
-		PoweredByImageKey:   c.String("config.msg_powered_by_image_key"),
-		PoweredByImageAlt:   c.String("config.msg_powered_by_image_alt"),
-	}
+	feishuPlugin := feishu_plugin.BindFlag(c, cliVersion, cliName, drone)
 
-	ossHost := findStrFromCliOrCoverByEnv(c, "config.feishu_oss_host", feishu_plugin.EnvPluginFeishuOssHost)
-	cardOss := feishu_plugin.CardOss{}
-	if ossHost == "" {
-		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusHide
-	} else {
-		feishuCfg.RenderOssCard = feishu_plugin.RenderStatusShow
-		cardOss.InfoSendResult = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_send_result", feishu_plugin.EnvPluginFeishuOssInfoSendResult)
-		cardOss.InfoUser = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_user", feishu_plugin.EnvPluginFeishuOssInfoUser)
-		cardOss.InfoPath = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_info_path", feishu_plugin.EnvPluginFeishuOssInfoPath)
-		cardOss.ResourceUrl = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_resource_url", feishu_plugin.EnvPluginFeishuOssResourceUrl)
-		cardOss.PageUrl = findStrFromCliOrCoverByEnv(c, "config.feishu_oss_page_url", feishu_plugin.EnvPluginFeishuOssPageUrl)
-		ossPagePasswd := findStrFromCliOrCoverByEnv(c, "config.feishu_oss_page_passwd", feishu_plugin.EnvPluginFeishuOssPagePasswd)
-		if ossPagePasswd == "" {
-			cardOss.RenderResourceUrl = feishu_plugin.RenderStatusShow
-		} else {
-			cardOss.RenderResourceUrl = feishu_plugin.RenderStatusHide
-			cardOss.PagePasswd = ossPagePasswd
-		}
-	}
-	feishuCfg.CardOss = cardOss
-
-	config.FeishuCfg = feishuCfg
+	config.FeishuCfg = feishuPlugin.Config
 
 	if isDebug {
 		log.Printf("config.timeout_second: %v", config.TimeoutSecond)
