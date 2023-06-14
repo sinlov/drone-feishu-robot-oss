@@ -35,6 +35,10 @@ steps:
       feishu_msg_title: "Drone CI Notification" # default [Drone CI Notification]
       # let notification card change more info see https://open.feishu.cn/document/ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN
       feishu_enable_forward: true
+      drone_system_admin_token: # non-essential parameter 1.4.0+
+        from_secret: drone_system_admin_token
+      # ignore last success by distance
+      feishu_ignore_last_success_by_admin_token_distance: 1 # if distance is 0 will not ignore, use 1 will let notify build change to success
     when:
       event: # https://docs.drone.io/pipeline/exec/syntax/conditions/#by-event
         - promote
@@ -152,13 +156,3 @@ $ docker run --rm sinlov/drone-feishu-robot-oss:latest -h
 
 - use to replace
   `sinlov/drone-feishu-robot-oss` to you code
-
-### cli tools to init project fast
-
-```
-$ curl -L --fail https://raw.githubusercontent.com/sinlov/drone-feishu-robot-oss/main/drone-feishu-robot-oss
-# let drone-feishu-robot-oss file folder under $PATH
-$ chmod +x drone-feishu-robot-oss
-# see how to use
-$ drone-feishu-robot-oss -h
-```
