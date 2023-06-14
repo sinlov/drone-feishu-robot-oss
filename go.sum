@@ -47,8 +47,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/russross/blackfriday/v2 v2.1.0 h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf35Ld67mk=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
-github.com/sinlov/drone-feishu-group-robot v1.9.0 h1:R7kw3pdsur4pVotkuhMOwRu8EJF4wmCCAeE7Vbn3q6o=
-github.com/sinlov/drone-feishu-group-robot v1.9.0/go.mod h1:K7iH+y4rvVc4n6UvHbSsSWDPogBpWah2EFCUN45b3A4=
+github.com/sinlov/drone-feishu-group-robot v1.10.0 h1:5Fadnmxwby7nbyD4onxojruwPVgVAEV7iRpGyiWEDzE=
+github.com/sinlov/drone-feishu-group-robot v1.10.0/go.mod h1:K7iH+y4rvVc4n6UvHbSsSWDPogBpWah2EFCUN45b3A4=
 github.com/sinlov/drone-file-browser-plugin v1.8.0 h1:93FvH1rIwaWiwH3jApHtsgbCjSLjAj61IJYV5/TYR7I=
 github.com/sinlov/drone-file-browser-plugin v1.8.0/go.mod h1:A+kWeNpbeXdbI7KPuDCkD2vDcl/eqVjG2QaBGe1LO2k=
 github.com/sinlov/drone-info-tools v1.8.0/go.mod h1:nrS0ClFNKrBAIzh+x0zWOU4MyCd+B8FkjY+rR23oaQ4=
