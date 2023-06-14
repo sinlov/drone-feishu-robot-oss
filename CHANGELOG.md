@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.3.2...v1.4.0) (2023-06-14)
+
+
+### Features
+
+* update github.com/sinlov/drone-feishu-group-robot v1.9.0 add drone_system_admin_token support ([cf84993](https://github.com/sinlov/drone-feishu-robot-oss/commit/cf8499389113176b63ad99300febf446e3e9eb15))
+
 ### [1.3.2](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.3.1...v1.3.2) (2023-03-15)
 
 
