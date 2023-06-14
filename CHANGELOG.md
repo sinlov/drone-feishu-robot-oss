@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.4.0...v1.5.0) (2023-06-14)
+
+
+### Features
+
+* fix flag bind not use newest other plugin ([5b4df4a](https://github.com/sinlov/drone-feishu-robot-oss/commit/5b4df4a962c508cc178bb5495d1d7f646bb07fc7))
+
 ## [1.4.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.3.2...v1.4.0) (2023-06-14)
 
 
