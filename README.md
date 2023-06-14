@@ -35,7 +35,7 @@ steps:
       feishu_msg_title: "Drone CI Notification" # default [Drone CI Notification]
       # let notification card change more info see https://open.feishu.cn/document/ukTMukTMukTM/uAjNwUjLwYDM14CM2ATN
       feishu_enable_forward: true
-      drone_system_admin_token: # non-essential parameter 1.4.0+
+      drone_system_admin_token: # non-essential parameter 1.5.0+
         from_secret: drone_system_admin_token
       # ignore last success by distance
       feishu_ignore_last_success_by_admin_token_distance: 1 # if distance is 0 will not ignore, use 1 will let notify build change to success
