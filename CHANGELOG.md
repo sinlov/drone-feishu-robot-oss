@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.5.0...v1.6.0) (2023-06-14)
+
+
+### Features
+
+* github.com/sinlov/drone-feishu-group-robot v1.10.0 change to support build fail not pass ([eddcf52](https://github.com/sinlov/drone-feishu-robot-oss/commit/eddcf52920c90c7509f377db426ab5e6015f4851))
+
 ## [1.5.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/v1.4.0...v1.5.0) (2023-06-14)
 
 
