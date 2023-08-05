@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.9.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.8.0...v1.9.0) (2023-08-05)
+
+### ✨ Features
+
+* change to go1.19.10 to build and github.com/sinlov/drone-feishu-group-robot v1.14.0 ([4e4c1485](https://github.com/sinlov/drone-feishu-robot-oss/commit/4e4c1485e0af20e5f912ce718ac9f288fcfb3f46))
+
 ## [1.8.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.7.0...v1.8.0) (2023-08-05)
 
 ### ✨ Features
