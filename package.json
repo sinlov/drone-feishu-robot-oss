@@ -1,6 +1,6 @@
 {
   "name": "drone-feishu-robot-oss",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "used to drone CI send to oss and feishu notify",
   "directories": {
     "doc": "doc"
