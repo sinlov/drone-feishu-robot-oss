@@ -74,8 +74,8 @@ steps:
 
 ## env
 
-- minimum go version: go 1.18
-- change `go 1.18`, `^1.18`, `1.18.10` to new go version
+- minimum go version: go 1.19
+- change `go 1.19`, `^1.19`, `1.19.10` to new go version
 
 ### libs
 

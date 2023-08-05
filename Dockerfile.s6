@@ -3,7 +3,7 @@
 # Author: sinlov
 # dockerfile offical document https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/_/golang
-FROM golang:1.18.10-buster as builder
+FROM golang:1.19.10-buster as builder
 
 ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/drone-feishu-robot-oss
 ARG GO_ENV_ROOT_BUILD_BIN_NAME=drone-feishu-robot-oss
