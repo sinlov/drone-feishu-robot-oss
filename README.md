@@ -72,6 +72,20 @@ steps:
 
 - more see [features/README.md](features/README.md)
 
+## env
+
+- minimum go version: go 1.18
+- change `go 1.18`, `^1.18`, `1.18.10` to new go version
+
+### libs
+
+| lib                                        | version |
+|:-------------------------------------------|:--------|
+| https://github.com/stretchr/testify        | v1.8.4  |
+| https://github.com/sebdah/goldie           | v2.5.3  |
+
+- more see [go.mod](go.mod)
+
 # dev
 
 ## depends
