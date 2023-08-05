@@ -3,35 +3,45 @@
 # Author: sinlov
 # dockerfile offical document https://docs.docker.com/engine/reference/builder/
 # https://hub.docker.com/_/golang
-FROM golang:1.17.13-buster as builder
+FROM golang:1.18.10-buster as builder
 
-ARG GO_PATH_SOURCE_DIR=/go/src/
+ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/drone-feishu-robot-oss
+ARG GO_ENV_ROOT_BUILD_BIN_NAME=drone-feishu-robot-oss
+ARG GO_ENV_ROOT_BUILD_BIN_PATH=build/${GO_ENV_ROOT_BUILD_BIN_NAME}
+ARG GO_ENV_ROOT_BUILD_ENTRANCE=cmd/drone-feishu-robot-oss/main.go
+
+ARG GO_PATH_SOURCE_DIR=/go/src
 WORKDIR ${GO_PATH_SOURCE_DIR}
 
-RUN mkdir -p ${GO_PATH_SOURCE_DIR}/github.com/sinlov/drone-feishu-robot-oss
-COPY $PWD ${GO_PATH_SOURCE_DIR}/github.com/sinlov/drone-feishu-robot-oss
+RUN mkdir -p ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}
+COPY $PWD ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}
 
 # proxy golang
 RUN go env -w "GOPROXY=https://goproxy.cn,direct"
 RUN go env -w "GOPRIVATE='*.gitlab.com,*.gitee.com"
 
-RUN cd ${GO_PATH_SOURCE_DIR}/github.com/sinlov/drone-feishu-robot-oss && \
+RUN cd ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME} && \
     go mod download -x
 
-RUN  cd ${GO_PATH_SOURCE_DIR}/github.com/sinlov/drone-feishu-robot-oss && \
+RUN  cd ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME} && \
   CGO_ENABLED=0 \
   go build \
   -a \
   -installsuffix cgo \
   -ldflags '-w -s --extldflags "-static -fpic"' \
   -tags netgo \
-  -o drone-feishu-robot-oss \
-  main.go
+  -o ${GO_ENV_ROOT_BUILD_BIN_PATH} \
+  ${GO_ENV_ROOT_BUILD_ENTRANCE}
 
 # https://hub.docker.com/_/alpine
 FROM alpine:3.17
 
 ARG DOCKER_CLI_VERSION=${DOCKER_CLI_VERSION}
+ARG GO_ENV_PACKAGE_NAME=github.com/sinlov/drone-feishu-robot-oss
+ARG GO_ENV_ROOT_BUILD_BIN_NAME=drone-feishu-robot-oss
+ARG GO_ENV_ROOT_BUILD_BIN_PATH=build/${GO_ENV_ROOT_BUILD_BIN_NAME}
+
+ARG GO_PATH_SOURCE_DIR=/go/src
 
 #RUN apk --no-cache add \
 #  ca-certificates mailcap curl \
@@ -40,6 +50,6 @@ ARG DOCKER_CLI_VERSION=${DOCKER_CLI_VERSION}
 RUN mkdir /app
 WORKDIR /app
 
-COPY --from=builder /go/src/github.com/sinlov/drone-feishu-robot-oss/drone-feishu-robot-oss .
-ENTRYPOINT ["/app/drone-feishu-robot-oss"]
+COPY --from=builder ${GO_PATH_SOURCE_DIR}/${GO_ENV_PACKAGE_NAME}/${GO_ENV_ROOT_BUILD_BIN_PATH} .
+ENTRYPOINT [ "/app/drone-feishu-robot-oss" ]
 # CMD ["/app/drone-feishu-robot-oss", "--help"]

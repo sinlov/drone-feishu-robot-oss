@@ -1,3 +1,8 @@
+### custom ignore
+
+*.log
+logs/
+
 ### build temple
 build/
 dist/
@@ -6,6 +11,7 @@ dist/
 
 !go.sum
 vendor/
+.vendor_new/
 
 ### go test
 # out of testcase
@@ -14,9 +20,11 @@ vendor/
 coverage.out
 coverage.txt
 # testData folder of golang
-testdata/
+test[Dd]ata/
 # Expected results when tested
 .golden
+# integration test report out
+profile.txt
 
 ### Go template
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
@@ -41,7 +49,6 @@ _cgo_export.*
 _testmain.go
 
 *.exe
-*.test
 *.prof
 
 
@@ -72,7 +79,7 @@ _testmain.go
 .idea/gradle.xml
 .idea/libraries
 
-# Mongo Explorer feishu_robot_oss_plugin:
+# Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
 ## File-based project format:
@@ -83,19 +90,19 @@ _testmain.go
 # IntelliJ
 /out/
 
-# mpeltonen/sbt-idea feishu_robot_oss_plugin
+# mpeltonen/sbt-idea plugin
 .idea_modules/
 
-# JIRA feishu_robot_oss_plugin
+# JIRA plugin
 atlassian-ide-plugin.xml
 
-# Crashlytics feishu_robot_oss_plugin (for Android Studio and IntelliJ)
+# Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-# Created by .ignore support feishu_robot_oss_plugin (hsz.mobi)
+# Created by .ignore support plugin (hsz.mobi)
 ### Linux template
 *~
 

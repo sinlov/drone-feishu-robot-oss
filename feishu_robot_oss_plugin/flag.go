@@ -4,23 +4,39 @@ import (
 	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
 	"github.com/sinlov/drone-file-browser-plugin/file_browser_plugin"
 	"github.com/sinlov/drone-info-tools/drone_info"
+	"github.com/sinlov/drone-info-tools/drone_log"
 	"github.com/urfave/cli/v2"
-	"log"
 	"os"
 )
+
+// IsBuildDebugOpen
+// when config or drone build open debug will open debug
+func IsBuildDebugOpen(c *cli.Context) bool {
+	return c.Bool(NamePluginDebug) || c.Bool(drone_info.NameCliStepsDebug)
+}
+
+// BindCliFlag
+// check args here
+func BindCliFlag(c *cli.Context, cliVersion, cliName string, drone drone_info.Drone) (*Plugin, error) {
+	debug := IsBuildDebugOpen(c)
+	p := BindFlag(c, debug, cliVersion, cliName, drone)
+
+	return &p, nil
+}
 
 func BindFlag(c *cli.Context, isDebug bool, cliVersion, cliName string, drone drone_info.Drone) Plugin {
 	ossType := c.String("config.feishu_robot_oss_type")
 	config := Config{
-		Debug:         c.Bool("config.debug"),
-		TimeoutSecond: c.Uint("config.timeout_second"),
+		Debug:         isDebug,
+		TimeoutSecond: c.Uint(NamePluginTimeOut),
 		OssType:       ossType,
 	}
+	drone_log.Debugf("args %s: %v", NamePluginTimeOut, config.TimeoutSecond)
 
 	switch ossType {
 	default:
 		if isDebug {
-			log.Printf("debug: now ossType is empty or not support %s\n", ossType)
+			drone_log.Warnf("debug: now ossType is empty or not support %s\n", ossType)
 		}
 	case FeishuRobotOssTypeFileBrowser:
 		// append filebrowser oss config
@@ -31,10 +47,6 @@ func BindFlag(c *cli.Context, isDebug bool, cliVersion, cliName string, drone dr
 	feishuPlugin := feishu_plugin.BindFlag(c, cliVersion, cliName, drone)
 
 	config.FeishuCfg = feishuPlugin.Config
-
-	if isDebug {
-		log.Printf("config.timeout_second: %v", config.TimeoutSecond)
-	}
 
 	p := Plugin{
 		Name:    cliName,
@@ -61,19 +73,23 @@ func Flag() []cli.Flag {
 // set plugin common flag at here
 func CommonFlag() []cli.Flag {
 	return []cli.Flag{
-		&cli.BoolFlag{
-			Name:    "config.debug,debug",
-			Usage:   "debug mode",
-			EnvVars: []string{"PLUGIN_DEBUG"},
+		&cli.UintFlag{
+			Name:    NamePluginTimeOut,
+			Usage:   "do request timeout setting second.",
+			Hidden:  true,
+			Value:   10,
+			EnvVars: []string{EnvPluginTimeOut},
 		},
-		&cli.IntFlag{
-			Name:    "config.timeout_second,timeout_second",
-			Usage:   "do request timeout setting second",
-			EnvVars: []string{"PLUGIN_TIMEOUT_SECOND"},
+		&cli.BoolFlag{
+			Name:    NamePluginDebug,
+			Usage:   "debug mode",
+			Value:   false,
+			EnvVars: []string{drone_info.EnvKeyPluginDebug},
 		},
 	}
 }
 
+//nolint:golint,unused
 func findStrFromCliOrCoverByEnv(c *cli.Context, ctxKey, envKey string) string {
 	val := c.String(ctxKey)
 	envVal, lookupEnv := os.LookupEnv(envKey)

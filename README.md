@@ -1,10 +1,16 @@
-[![go-ubuntu](https://github.com/sinlov/drone-feishu-robot-oss/workflows/go-ubuntu/badge.svg?branch=main)](https://github.com/sinlov/drone-feishu-robot-oss/actions)
-[![GoDoc](https://godoc.org/github.com/sinlov/drone-feishu-robot-oss?status.png)](https://godoc.org/github.com/sinlov/drone-feishu-robot-oss/)
-[![GoReportCard](https://goreportcard.com/badge/github.com/sinlov/drone-feishu-robot-oss)](https://goreportcard.com/report/github.com/sinlov/drone-feishu-robot-oss)
-[![codecov](https://codecov.io/gh/sinlov/drone-feishu-robot-oss/branch/main/graph/badge.svg)](https://codecov.io/gh/sinlov/drone-feishu-robot-oss)
-[![docker version semver](https://img.shields.io/docker/v/sinlov/drone-feishu-robot-oss?sort=semver)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
-[![docker image size](https://img.shields.io/docker/image-size/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss)
-[![docker pulls](https://img.shields.io/docker/pulls/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
+[![ci](https://github.com/sinlov/drone-feishu-robot-oss/workflows/ci/badge.svg?branch=main)](https://github.com/sinlov/drone-feishu-robot-oss/actions/workflows/ci.yml)
+
+[![go mod version](https://img.shields.io/github/go-mod/go-version/sinlov/drone-feishu-robot-oss?label=go.mod)](https://github.com/sinlov/drone-feishu-robot-oss)
+[![GoDoc](https://godoc.org/github.com/sinlov/drone-feishu-robot-oss?status.png)](https://godoc.org/github.com/sinlov/drone-feishu-robot-oss)
+[![goreportcard](https://goreportcard.com/badge/github.com/sinlov/drone-feishu-robot-oss)](https://goreportcard.com/report/github.com/sinlov/drone-feishu-robot-oss)
+
+[![docker hub version semver](https://img.shields.io/docker/v/sinlov/drone-feishu-robot-oss?sort=semver)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
+[![docker hub image size](https://img.shields.io/docker/image-size/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss)
+[![docker hub image pulls](https://img.shields.io/docker/pulls/sinlov/drone-feishu-robot-oss)](https://hub.docker.com/r/sinlov/drone-feishu-robot-oss/tags?page=1&ordering=last_updated)
+
+[![GitHub license](https://img.shields.io/github/license/sinlov/drone-feishu-robot-oss)](https://github.com/sinlov/drone-feishu-robot-oss)
+[![codecov](https://codecov.io/gh/sinlov/drone-feishu-robot-oss/branch/FE-new-build-workflow/graph/badge.svg)](https://codecov.io/gh/sinlov/drone-feishu-robot-oss)
+[![GitHub latest SemVer tag)](https://img.shields.io/github/v/tag/sinlov/drone-feishu-robot-oss)](https://github.com/sinlov/drone-feishu-robot-oss/tags)
 [![github release](https://img.shields.io/github/v/release/sinlov/drone-feishu-robot-oss?style=social)](https://github.com/sinlov/drone-feishu-robot-oss/releases)
 
 ## for what
