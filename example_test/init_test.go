@@ -1,14 +1,10 @@
-package feishu_robot_oss_plugin_test
+package example_test
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/sinlov/drone-feishu-group-robot/feishu_plugin"
-	"github.com/sinlov/drone-info-tools/drone_info"
-	"github.com/sinlov/drone-info-tools/drone_log"
-	"github.com/sinlov/drone-info-tools/template"
 	"io/fs"
 	"math/rand"
 	"os"
@@ -21,69 +17,17 @@ import (
 )
 
 const (
-	defTimeoutSecond     = 10
-	defTimeoutFileSecond = 30
-	mockVersion          = "v0.0.0"
-	keyEnvCiKeys         = "CI_KEYS"
-	mockName             = "drone-feishu-robot-oss"
-
-	mockOssTypeOther   = "other-type"
-	mockOssHost        = "https://docs.aws.amazon.com/s3/index.html"
-	mockOssUser        = "ossAdmin"
-	mockOssPath        = "dist/demo/pass.tar.gz"
-	mockOssResourceUrl = "https://docs.aws.amazon.com/s/dist/demo/pass.tar.gz"
-	mockOssPageUrl     = "https://docs.aws.amazon.com/p/dist/demo/pass.tar.gz"
-	mockOssPagePasswd  = "abc-zxy"
+	keyEnvCiKeys = "CI_KEYS"
 )
 
 var (
-	envDebug = false
-
+	envDebug   = false
 	envEnvKeys []string
-	strData    []string
-
-	envFeishuWebHook = ""
-	envFeishuSecret  = ""
 )
 
-func envCheck(t *testing.T) bool {
-
-	if envDebug {
-		drone_log.OpenDebug()
-	}
-
-	// most CI system will set env CI to true
-	envCI := fetchOsEnvBool("CI", false)
-	if !envCI {
-		t.Logf("not in CI system, skip envCheck")
-		return false
-	}
-	t.Logf("check env for CI system")
-
-	mustSetEnvList := []string{
-		feishu_plugin.EnvPluginFeishuWebhook,
-		feishu_plugin.EnvPluginFeishuSecret,
-	}
-	for _, item := range mustSetEnvList {
-		if os.Getenv(item) == "" {
-			t.Logf("plasee set env: %s, than run test\nfull need set env %v", item, mustSetEnvList)
-			return true
-		}
-	}
-
-	return false
-}
-
 func init() {
-	template.RegisterSettings(template.DefaultFunctions)
-	envDebug = fetchOsEnvBool(drone_info.EnvKeyPluginDebug, false) || fetchOsEnvBool(drone_info.EnvDroneBuildDebug, false)
-
-	envFeishuWebHook = fetchOsEnvStr(feishu_plugin.EnvPluginFeishuWebhook, "")
-
+	envDebug = fetchOsEnvBool("PLUGIN_DEBUG", false)
 	envEnvKeys = fetchOsEnvArray(keyEnvCiKeys)
-	for i := 0; i < 200; i++ {
-		strData = append(strData, randomStr(300))
-	}
 }
 
 // test case file tools start

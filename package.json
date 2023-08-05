@@ -1,5 +1,28 @@
 {
   "name": "drone-feishu-robot-oss",
   "version": "1.7.0",
-  "dependencies": {}
+  "description": "used to drone CI send to oss and feishu notify",
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinlov/drone-feishu-robot-oss.git"
+  },
+  "keywords": [
+    "go",
+    "drone",
+    "docker",
+    "devops"
+  ],
+  "author": {
+    "name": "sinlov",
+    "email": "sinlovgmppt@gmail.com",
+    "url": "https://github.com/sinlov/drone-feishu-robot-oss"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/sinlov/drone-feishu-robot-oss/issues"
+  },
+  "homepage": "https://github.com/sinlov/drone-feishu-robot-oss#readme"
 }

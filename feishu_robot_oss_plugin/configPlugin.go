@@ -9,6 +9,10 @@ const (
 	EnvPluginResultShareHost    = "PLUGIN_RESULT_SHARE_HOST"
 	EnvPluginFeishuRobotOssType = "PLUGIN_FEISHU_ROBOT_OSS_TYPE"
 
+	NamePluginDebug   = "config.debug"
+	EnvPluginTimeOut  = "PLUGIN_TIMEOUT_SECOND"
+	NamePluginTimeOut = "config.timeout_second"
+
 	FeishuRobotOssTypeFileBrowser = "filebrowser"
 )
 
