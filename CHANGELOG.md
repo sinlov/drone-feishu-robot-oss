@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.10.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.9.1...v1.10.0) (2023-08-08)
+
+### ✨ Features
+
+* change notify card head by github.com/sinlov/drone-feishu-group-robot v1.15.0 ([6f0e4904](https://github.com/sinlov/drone-feishu-robot-oss/commit/6f0e49043995e34dfecdcb379651330365ad4dd4))
+
+### 👷‍ Build System
+
+* github.com/sinlov/drone-feishu-group-robot v1.15.0 ([a27205ec](https://github.com/sinlov/drone-feishu-robot-oss/commit/a27205ec1febf3ef2a6267d49c5fffec2fb37164))
+
 ## [1.9.1](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.9.0...v1.9.1) (2023-08-07)
 
 ### 👷‍ Build System
