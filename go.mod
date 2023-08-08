@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/sebdah/goldie/v2 v2.5.3
-	github.com/sinlov/drone-feishu-group-robot v1.14.1
+	github.com/sinlov/drone-feishu-group-robot v1.15.0
 	github.com/sinlov/drone-file-browser-plugin v1.9.1
 	github.com/sinlov/drone-info-tools v1.31.0
 	github.com/stretchr/testify v1.8.4
