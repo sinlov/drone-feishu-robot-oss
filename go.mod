@@ -5,9 +5,9 @@ go 1.19
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/sebdah/goldie/v2 v2.5.3
-	github.com/sinlov/drone-feishu-group-robot v1.15.0
+	github.com/sinlov/drone-feishu-group-robot v1.16.0
 	github.com/sinlov/drone-file-browser-plugin v1.9.1
-	github.com/sinlov/drone-info-tools v1.31.0
+	github.com/sinlov/drone-info-tools v1.32.0
 	github.com/stretchr/testify v1.8.4
 	github.com/urfave/cli/v2 v2.25.7
 )
@@ -16,7 +16,7 @@ require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.2.0 // indirect
 	github.com/Masterminds/sprig/v3 v3.2.3 // indirect
-	github.com/antchfx/xmlquery v1.3.17 // indirect
+	github.com/antchfx/xmlquery v1.3.18 // indirect
 	github.com/antchfx/xpath v1.2.4 // indirect
 	github.com/aymerick/raymond v2.0.2+incompatible // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
