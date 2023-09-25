@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.11.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.10.0...v1.11.0) (2023-09-26)
+
+### ✨ Features
+
+* show build time and stege time ([a23d2696](https://github.com/sinlov/drone-feishu-robot-oss/commit/a23d269686c11e256227df826e1a262044ee2947)), feat [#4](https://github.com/sinlov/drone-feishu-robot-oss/issues/4)
+
 ## [1.10.0](https://github.com/sinlov/drone-feishu-robot-oss/compare/1.9.1...v1.10.0) (2023-08-08)
 
 ### ✨ Features
